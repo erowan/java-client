@@ -28,6 +28,6 @@ You can run the test suite by running the following::
 
         $ mvn test
 
-Use the ``-Dtest.url`` flag to point to your own stubo server (defaults to localhost:8001)::
+Use the ``-Dtest.url`` flag to point to your own stubo server (defaults to localhost:8001)
 
         $ mvn -Dtest.url=my-stubo-server.com test 
