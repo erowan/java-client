@@ -1,5 +1,7 @@
-Stub-O-Matic Client
-===================
+Stub-O-Matic Java Client
+========================
+
+[![Build Status](https://travis-ci.org/Stub-O-Matic/java-client.png?branch=master)](https://travis-ci.org/Stub-O-Matic/java-client)
 
 Java language binding
 
