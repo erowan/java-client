@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +88,7 @@ final class StuboHttpRequest extends AbstractClientHttpRequest {
 		if (headers.getContentLength() == -1) {
 			headers.setContentLength(bytes.length);
 		}
-		Map<String, String> stuboHeaders = this.getStuboHeaders(this.httpRequest);
+		Map<String, String> stuboHeaders = this.getStuboHeaders(this.httpRequest, headers);
 		if (this.session.getMode() == "record"){
 			Charset charset = getContentTypeCharset(headers.getContentType());
 			String payload = new String(bytes, charset.name());
@@ -171,7 +172,8 @@ final class StuboHttpRequest extends AbstractClientHttpRequest {
 		}
 	}
 	
-	private  Map<String, String> getStuboHeaders(HttpUriRequest request){
+	private  Map<String, String> getStuboHeaders(HttpUriRequest request,
+	                                             HttpHeaders headers){
         /* TODO:     
         if self.auth_token:
             info["Stubo-Auth"] = self.auth_token  
@@ -185,7 +187,13 @@ final class StuboHttpRequest extends AbstractClientHttpRequest {
 		}
 		if (request.getURI().getQuery() != null) {
 		    info.put("Stubo-Request-Query", request.getURI().getQuery());
-		}    
+		} 
+		StringBuilder stuboHeaders = new StringBuilder("{");
+		for (Map.Entry<String, String> entry : headers.toSingleValueMap().entrySet()) {
+		    stuboHeaders.append("'" + entry.getKey() + "' : '" + entry.getValue() + "', ");
+        }
+		stuboHeaders.append("}");
+		info.put("Stubo-Request-Headers", stuboHeaders.toString());
 		return info;
 	}  
 	
